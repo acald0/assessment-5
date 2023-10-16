@@ -217,6 +217,12 @@ module.exports = {
             ('Yemen'),
             ('Zambia'),
             ('Zimbabwe');
+
+            INSERT INTO cities (name, rating)
+            VALUES ('Edinburgh', 5)
+            ('Barcelona', 4)
+            ('London', 5)
+
         `).then(() => {
             console.log('DB seeded!')
             res.sendStatus(200)
@@ -235,7 +241,7 @@ module.exports = {
         sequelize.query(`
             INSERT INTO cities (name, rating, country_id)
             VALUES ('${name}', ${rating}, ${countryId})
-            
+            RETURNING *;
         `).then((dbRes) => res.status(200).send(dbRes[0]))
     },
 
@@ -244,7 +250,7 @@ module.exports = {
         SELECT city.city_id, city.name, city.rating, country.country_id, country.name
         FROM countries AS country
             JOIN cities AS city
-                ON city.country_id = country.country_id
+                ON country.country_id = city.country_id
         `).then((dbRes) => res.status(200).send(dbRes[0]))
     },
 
@@ -257,5 +263,5 @@ module.exports = {
             WHERE ${id} = city_id
         `).then((dbRes) => res.status(200).send(dbRes[0]))
 
-    }
+    },
 }
