@@ -229,5 +229,14 @@ module.exports = {
         `).then(dbRes => res.status(200).send(dbRes[0]))
     },
 
+    createCity: (req, res) => {
+        let {name, rating, countryId} = req.body
+
+        sequelize.query(`
+        INSERT INTO cities (name, rating, countryId)
+        VALUES (${name}, ${rating}, ${countryId})
+        `).then((dbRes) => res.status(200).send(dbRes[0]))
+    },
+
 
 }
