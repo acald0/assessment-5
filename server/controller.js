@@ -226,7 +226,7 @@ module.exports = {
     getCountries: (req, res) => {
         sequelize.query(`
         SELECT * FROM countries
-        `).then(dbRes => res.status(200).send(dbRes[0]))
+        `).then((dbRes) => res.status(200).send(dbRes[0]))
     },
 
     createCity: (req, res) => {
@@ -238,5 +238,12 @@ module.exports = {
         `).then((dbRes) => res.status(200).send(dbRes[0]))
     },
 
-
+    getCities: (req, res) => {
+        sequelize.query(`
+        SELECT city.city_id, city.rating, country.country_id, country.name
+        FROM countries AS country
+            JOIN cities AS city
+                ON county.country_id = city.country_id
+        `).then((dbRes) => res.status(200).send(dbRes[0]))
+    }
 }
